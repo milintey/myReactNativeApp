@@ -173,16 +173,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   view: {
-    // flex: 1,
     height: 549,
     width: "100%",
     backgroundColor: "#fff",
-    // justifyContent: "center",
-    alignItems: "center",
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
   },
   formTitle: {
+    marginRight: "auto",
+    marginLeft: "auto",
     fontFamily: "Roboto-Medium",
     fontSize: 30,
     marginTop: 92,
@@ -190,7 +189,7 @@ const styles = StyleSheet.create({
   },
   form: {},
   input: {
-    width: 343,
+    marginHorizontal: 16,
     height: 50,
     borderWidth: 1,
     borderRadius: 8,
@@ -199,7 +198,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
   },
   btn: {
-    width: 343,
+    marginHorizontal: 16,
     height: 51,
     backgroundColor: "#FF6C00",
     borderRadius: 100,
@@ -213,6 +212,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   textAccaunt: {
+    marginRight: "auto",
+    marginLeft: "auto",
     color: "#1B4371",
     fontFamily: "Roboto-Regular",
     fontSize: 16,
