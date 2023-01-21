@@ -19,7 +19,7 @@ const initialState = {
   password: "",
 };
 
-export function LoginScreen() {
+export function LoginScreen({ navigation }) {
   const [state, setState] = useState(initialState);
 
   const [inputBorderColor2, setInputBorderColor2] = useState("#E8E8E8");
@@ -123,7 +123,13 @@ export function LoginScreen() {
               </TouchableOpacity>
             </View>
             <Text style={styles.textAccaunt}>
-              Нет аккаунта? Зарегистрироваться
+              Нет аккаунта?{" "}
+              <Text
+                onPress={() => navigation.navigate("Registration")}
+                style={styles.navLogin}
+              >
+                Зарегистрироваться
+              </Text>
             </Text>
           </View>
         </ImageBackground>
@@ -188,5 +194,10 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto-Regular",
     fontSize: 16,
     marginTop: 16,
+  },
+  navLogin: {
+    color: "#1B4371",
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
   },
 });

@@ -1,14 +1,11 @@
 import { StyleSheet, View } from "react-native";
-import { RegistrationScreen } from "./Screens/RegistrationScreen";
-// import { LoginScreen } from "./Screens/LoginScreen";
+import { NavigationContainer } from "@react-navigation/native";
+
+import { useRoute } from "./routing";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <RegistrationScreen />
-      {/* <LoginScreen /> */}
-    </View>
-  );
+  const routing = useRoute({});
+  return <NavigationContainer>{routing}</NavigationContainer>;
 }
 
 const styles = StyleSheet.create({

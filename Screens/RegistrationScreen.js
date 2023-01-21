@@ -7,20 +7,24 @@ import {
   TouchableOpacity,
   Keyboard,
   TouchableWithoutFeedback,
+  Image,
 } from "react-native";
 import { useState, useCallback } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import * as DocumentPicker from "expo-document-picker";
 
 SplashScreen.preventAutoHideAsync();
 
 const initialState = {
+  avatar: "../images/Rectangle 22.jpg",
   login: "",
   email: "",
   password: "",
 };
 
-export function RegistrationScreen() {
+export function RegistrationScreen({ navigation }) {
+  console.log(navigation);
   const [state, setState] = useState(initialState);
 
   const [inputBorderColor, setInputBorderColor] = useState("#E8E8E8");
@@ -81,6 +85,11 @@ export function RegistrationScreen() {
     return null;
   }
 
+  const UploadFile = async () => {
+    const result = await DocumentPicker.getDocumentAsync();
+    setState((prevState) => ({ ...prevState, avatar: result.uri }));
+  };
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container} onLayout={onLayoutRootView}>
@@ -88,7 +97,22 @@ export function RegistrationScreen() {
           style={styles.image}
           source={require("../images/Photo-BG.jpg")}
         >
-          <View style={styles.avatar}></View>
+          <View style={styles.avatarView}>
+            <Image
+              style={styles.avatarImg}
+              source={{
+                uri: state.avatar,
+              }}
+            />
+            <TouchableOpacity
+              onPress={UploadFile}
+              activeOpacity={0.7}
+              style={styles.avatarBtn}
+            >
+              <Text style={styles.avatarBtnTitle}>+</Text>
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.view}>
             <Text style={styles.formTitle}>Регистрация</Text>
 
@@ -153,7 +177,15 @@ export function RegistrationScreen() {
                 <Text style={styles.btnTitle}>Зарегистрироваться</Text>
               </TouchableOpacity>
             </View>
-            <Text style={styles.textAccaunt}>Уже есть аккаунт? Войти</Text>
+            <Text style={styles.textAccaunt}>
+              Уже есть аккаунт?{" "}
+              <Text
+                onPress={() => navigation.navigate("Login")}
+                style={styles.navLogin}
+              >
+                Войти
+              </Text>
+            </Text>
           </View>
         </ImageBackground>
       </View>
@@ -219,7 +251,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 16,
   },
-  avatar: {
+  avatarView: {
     width: 120,
     height: 120,
     backgroundColor: "#F6F6F6",
@@ -227,5 +259,33 @@ const styles = StyleSheet.create({
     top: 60,
     zIndex: 100,
     borderRadius: 16,
+    // alignItems: "center",
+    // justifyContent: "center",
+  },
+  avatarBtn: {
+    width: 25,
+    height: 25,
+    borderWidth: 1,
+    borderRadius: 100,
+    borderColor: "#FF6C00",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+    left: 107,
+    bottom: 39,
+  },
+  avatarImg: {
+    width: 120,
+    height: 120,
+    borderRadius: 16,
+  },
+  avatarBtnTitle: {
+    color: "#FF6C00",
+  },
+  navLogin: {
+    color: "#1B4371",
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
   },
 });
