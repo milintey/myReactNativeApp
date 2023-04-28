@@ -13,6 +13,12 @@ import { useState, useCallback } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import * as DocumentPicker from "expo-document-picker";
+import { useDispatch } from "react-redux";
+
+import { authSignUpUser } from "../redux/auth/authOperations";
+
+import AddPhoto from "../svg/+.svg";
+import DeletePhoto from "../svg/-.svg";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -24,8 +30,8 @@ const initialState = {
 };
 
 export function RegistrationScreen({ navigation }) {
-  console.log(navigation);
   const [state, setState] = useState(initialState);
+  const dispatch = useDispatch();
 
   const [inputBorderColor, setInputBorderColor] = useState("#E8E8E8");
   const [inputBackgroundColor, setInputBackgroundColor] = useState("#F6F6F6");
@@ -33,6 +39,8 @@ export function RegistrationScreen({ navigation }) {
   const [inputBackgroundColor2, setInputBackgroundColor2] = useState("#F6F6F6");
   const [inputBorderColor3, setInputBorderColor3] = useState("#E8E8E8");
   const [inputBackgroundColor3, setInputBackgroundColor3] = useState("#F6F6F6");
+
+  // console.log(state);
 
   const onFocusInput = () => {
     setInputBorderColor("#FF6C00");
@@ -67,6 +75,7 @@ export function RegistrationScreen({ navigation }) {
   const submitForm = () => {
     Keyboard.dismiss();
     console.log(state);
+    dispatch(authSignUpUser(state));
     setState(initialState);
   };
 
@@ -90,6 +99,13 @@ export function RegistrationScreen({ navigation }) {
     setState((prevState) => ({ ...prevState, avatar: result.uri }));
   };
 
+  const deleteAvatarPhoto = () => {
+    setState((prevState) => ({
+      ...prevState,
+      avatar: "../images/Rectangle 22.jpg",
+    }));
+  };
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container} onLayout={onLayoutRootView}>
@@ -104,13 +120,24 @@ export function RegistrationScreen({ navigation }) {
                 uri: state.avatar,
               }}
             />
-            <TouchableOpacity
-              onPress={UploadFile}
-              activeOpacity={0.7}
-              style={styles.avatarBtn}
-            >
-              <Text style={styles.avatarBtnTitle}>+</Text>
-            </TouchableOpacity>
+            {state.avatar === "../images/Rectangle 22.jpg" ? (
+              <TouchableOpacity
+                onPress={UploadFile}
+                activeOpacity={0.7}
+                style={styles.avatarBtn}
+              >
+                <AddPhoto />
+                {/* <Text style={styles.avatarBtnTitle}>+</Text> */}
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={deleteAvatarPhoto}
+                activeOpacity={0.7}
+                style={styles.avatarBtnDelete}
+              >
+                <DeletePhoto />
+              </TouchableOpacity>
+            )}
           </View>
 
           <View style={styles.view}>
@@ -268,6 +295,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 100,
     borderColor: "#FF6C00",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+    left: 107,
+    bottom: 39,
+  },
+  avatarBtnDelete: {
+    width: 25,
+    height: 25,
+    borderWidth: 1,
+    borderRadius: 100,
+    borderColor: "#E8E8E8",
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",

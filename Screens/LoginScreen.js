@@ -11,6 +11,9 @@ import {
 import { useState, useCallback } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { useDispatch } from "react-redux";
+
+import { authSignInUser } from "../redux/auth/authOperations";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -21,6 +24,7 @@ const initialState = {
 
 export function LoginScreen({ navigation }) {
   const [state, setState] = useState(initialState);
+  const dispatch = useDispatch();
 
   const [inputBorderColor2, setInputBorderColor2] = useState("#E8E8E8");
   const [inputBackgroundColor2, setInputBackgroundColor2] = useState("#F6F6F6");
@@ -50,6 +54,7 @@ export function LoginScreen({ navigation }) {
   const submitForm = () => {
     Keyboard.dismiss();
     console.log(state);
+    dispatch(authSignInUser(state));
     setState(initialState);
   };
 

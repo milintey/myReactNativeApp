@@ -1,16 +1,24 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Image } from "react-native";
+import { Image, View, TouchableOpacity, Button } from "react-native";
 
 import { RegistrationScreen } from "./Screens/RegistrationScreen";
 import { LoginScreen } from "./Screens/LoginScreen";
-import { PostsScreen } from "./Screens/PostsScreen";
-import { CreatePostsScreen } from "./Screens/CreatePostsScreen";
-import { ProfileScreen } from "./Screens/ProfileScreen";
+import { DefaultScreen } from "./Screens/mainScreen/DefaultScreen";
+import { CreatePostsScreen } from "./Screens/mainScreen/CreatePostsScreen";
+import { ProfileScreen } from "./Screens/mainScreen/ProfileScreen";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-// import { Post } from "./svg/grid.svg"
+import Gridd from "./svg/grid.svg";
+// import Grid from "./svg/grid.jpg";
+
+import AddPost from "./svg/add.svg";
+import NewPostScreen from "./svg/new.svg";
+import UserScreenActive from "./svg/userActive.svg";
+import UserScreenDefault from "./svg/user.svg";
+import PostScreenActive from "./svg/Posts.svg";
+import Exit from "./svg/log-out.svg";
 
 const MainStack = createStackNavigator();
 const Tabs = createBottomTabNavigator();
@@ -22,7 +30,16 @@ export const useRoute = (isAuth) => {
         <MainStack.Screen
           name="Registration"
           component={RegistrationScreen}
-          options={{ headerShown: false }}
+          options={{
+            headerShown: false,
+            headerRight: () => (
+              <Button
+                onPress={() => alert("This is a button!")}
+                title="Info"
+                color="#fff"
+              />
+            ),
+          }}
         />
         <MainStack.Screen
           name="Login"
@@ -35,46 +52,66 @@ export const useRoute = (isAuth) => {
 
   return (
     <Tabs.Navigator
-      initialRouteName="PostsScreen"
-      screenOptions={{ tabBarShowLabel: false, headerTitleAlign: "center" }}
+      initialRouteName="DefaultScreen"
+      screenOptions={{
+        tabBarShowLabel: false,
+        headerTitleAlign: "center",
+        tabBarStyle: {
+          height: 90,
+          justifyContent: "center",
+        },
+      }}
     >
       <Tabs.Screen
-        name="Публикации"
-        component={PostsScreen}
+        name="Default Screen"
+        component={DefaultScreen}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <MaterialCommunityIcons
-              name="postage-stamp"
-              size={24}
-              color={color}
-            />
-          ),
+          tabBarIconStyle: {
+            marginTop: 9,
+            marginLeft: 80,
+          },
+          headerShown: false,
+          tabBarIcon: ({ focused }) =>
+            focused ? <PostScreenActive /> : <Gridd />,
+          // headerRight: () => (
+          //   <Button
+          //     onPress={() => alert("This is a button!")}
+          //     title="Info"
+          //     color="#fff"
+          //   />
+          // ),
         }}
       />
       <Tabs.Screen
         name="Создать публикацию"
         component={CreatePostsScreen}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <AntDesign name="pluscircleo" size={24} color={color} />
-          ),
+          tabBarIconStyle: {
+            marginTop: 9,
+          },
+          tabBarIcon: ({ focused }) =>
+            focused ? <NewPostScreen /> : <AddPost />,
+          // tabBarButton: (props) => <TouchableOpacity {...props} />,
+          // headerRight: () => (
+          //   <Button
+          //     onPress={() => alert("This is a button!")}
+          //     title="Info"
+          //     color="#fff"
+          //   />
+          // ),
         }}
       />
       <Tabs.Screen
         name="ProfileScreen"
         component={ProfileScreen}
         options={{
-          headerShown: false,
-          headerStyle: {
-            fontSize: 40,
+          tabBarIconStyle: {
+            marginTop: 9,
+            marginRight: 80,
           },
-          tabBarIcon: ({ focused, color, size }) => (
-            <MaterialCommunityIcons
-              name="face-man-profile"
-              size={24}
-              color={color}
-            />
-          ),
+          headerShown: false,
+          tabBarIcon: ({ focused }) =>
+            focused ? <UserScreenActive /> : <UserScreenDefault />,
         }}
       />
     </Tabs.Navigator>
